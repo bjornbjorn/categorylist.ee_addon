@@ -16,9 +16,9 @@ $plugin_info = array(
  *
  * @package			ExpressionEngine
  * @category		Plugin
- * @author			Bjørn Børresen
- * @copyright		Copyright (c) 2009, Bjørn Børresen
- * @link			http://bybjorn.com/ee/categorylist
+ * @author			Bjorn Borresen
+ * @copyright		Copyright (c) 2009, Bjorn Borresen
+ * @link			http://ee.bybjorn.com/categorylist
  */
 
 class Categorylist
@@ -51,8 +51,9 @@ var $return_data = "";
 			if(isset($category['children'])) {	// has kids!
 				$html .= $this->getCategoryHTML( $category['children'], $default_css_class, $current_css_class, $path, $current_cat_url_title, "<ul".(($level > 0 && $ul_class_children != '')?' class="'.$ul_class_children.'">':'>'), $ul_class_children, $level+1 );
 			}
+			$html .= '</li>';			
 		}
-		$html .= "</li></ul>";
+		$html .= "</ul>";
 		
 		return $html;
   }	 
@@ -102,10 +103,10 @@ var $return_data = "";
         
 	if($home_link != "") {
 		$css_class = ($current_cat_url_title == '' ? $current_css_class : $default_css_class); 
-		$open_html = '<ul '.$ul_html.'><li class="'.$css_class.'"><a href="'.$home_link.'"><span>'.$this->EE->TMPL->fetch_param('home_title').'</span></a></li>';
+		$open_html = '<ul'.($ul_html!=''?' '.$ul_html:'').'><li class="'.$css_class.'"><a href="'.$home_link.'"><span>'.$this->EE->TMPL->fetch_param('home_title').'</span></a></li>';
 		
 	} else {
-		$open_html = '<ul '.$ul_html.'>';
+		$open_html = '<ul'.($ul_html!=''?' '.$ul_html:'').'>';
 	}    
 	$this->return_data = $this->getCategoryHTML($categories, $default_css_class, $current_css_class, $path, $current_cat_url_title, $open_html, $ul_class_children, 1);
 	
