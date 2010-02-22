@@ -1,4 +1,5 @@
-#### exp:categorylist for EE 2.0
+
+h4. {exp:categorylist} for EE 2.0
 
 Will take a category group and output a nested set of ul/li-tags.
 
