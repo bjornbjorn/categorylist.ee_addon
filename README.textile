@@ -1,0 +1,5 @@
+#### {exp:categorylist} for EE 2.0
+
+Will take a category group and output a nested set of <ul>/<li>'s.
+
+!http://i.imgur.com/ewwud.png(exp:categorylist)!
