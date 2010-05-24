@@ -40,7 +40,7 @@ var $return_data = "";
    * @param $ul_class_children
    * @param $level
    */
-  function getCategoryHTML( $arr, $default_css_class, $current_css_class, $path, $current_cat_url_title, $open_html, $ul_class_children, $level = 0 ) 
+  function getCategoryHTML( $arr, $default_css_class, $current_css_class, $path, $current_cat_url_title, $open_html, $ul_class_children, $enclose_in_ul, $level = 0 ) 
   {
 		$html = $open_html;
 		foreach($arr as $category) {
@@ -49,12 +49,17 @@ var $return_data = "";
 			
 			$html .= '<li class="'.$css_class.'"><a href="'.$path.$category['cat_url_title'].'"><span>' . $category['cat_name'] . '</a></span>';
 			if(isset($category['children'])) {	// has kids!
-				$html .= $this->getCategoryHTML( $category['children'], $default_css_class, $current_css_class, $path, $current_cat_url_title, "<ul".(($level > 0 && $ul_class_children != '')?' class="'.$ul_class_children.'">':'>'), $ul_class_children, $level+1 );
+				$html .= $this->getCategoryHTML( $category['children'], $default_css_class, $current_css_class, $path, $current_cat_url_title, "<ul".(($level > 0 && $ul_class_children != '')?' class="'.$ul_class_children.'">':'>'), $ul_class_children, true, $level+1 );
 			}
+						
 			$html .= '</li>';			
 		}
-		$html .= "</ul>";
 		
+		if($enclose_in_ul)
+		{
+			$html .= "</ul>";	
+		}
+				
 		return $html;
   }	 
 
@@ -68,6 +73,7 @@ var $return_data = "";
 	$ul_class_children = $this->EE->TMPL->fetch_param('ul_class_children');
 	$ul_html = $this->EE->TMPL->fetch_param('ul_html');
 	$addtourl = $this->EE->TMPL->fetch_param('add_to_url');
+	$enclose_in_ul = ($this->EE->TMPL->fetch_param('enclose_in_ul') != 'no');
 				
 	$siteurl = $this->EE->config->slash_item('site_url');
 	$indexphp = $this->EE->config->slash_item('site_index');	
@@ -101,14 +107,24 @@ var $return_data = "";
 		}
     }
         
+    $open_html = "";
 	if($home_link != "") {
 		$css_class = ($current_cat_url_title == '' ? $current_css_class : $default_css_class); 
-		$open_html = '<ul'.($ul_html!=''?' '.$ul_html:'').'><li class="'.$css_class.'"><a href="'.$home_link.'"><span>'.$this->EE->TMPL->fetch_param('home_title').'</span></a></li>';
+
+		if($enclose_in_ul)
+		{
+			$open_html = "<ul'.($ul_html!=''?' '.$ul_html:'').'>";
+		}
 		
-	} else {
+		$open_html .= '<li class="'.$css_class.'"><a href="'.$home_link.'"><span>'.$this->EE->TMPL->fetch_param('home_title').'</span></a></li>';
+		
+	} else if($enclose_in_ul) {
 		$open_html = '<ul'.($ul_html!=''?' '.$ul_html:'').'>';
-	}    
-	$this->return_data = $this->getCategoryHTML($categories, $default_css_class, $current_css_class, $path, $current_cat_url_title, $open_html, $ul_class_children, 1);
+	}
+
+	$return_html = $this->getCategoryHTML($categories, $default_css_class, $current_css_class, $path, $current_cat_url_title, $open_html, $ul_class_children, $enclose_in_ul, 1);
+	
+	$this->return_data = $return_html;
 	
   }
   
