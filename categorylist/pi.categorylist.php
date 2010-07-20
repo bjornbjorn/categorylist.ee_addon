@@ -47,7 +47,7 @@ var $return_data = "";
 			
 			$css_class = ($category['cat_url_title'] == $current_cat_url_title ? $current_css_class : $default_css_class);
 			
-			$html .= '<li class="'.$css_class.'"><a href="'.$path.$category['cat_url_title'].'"><span>' . $category['cat_name'] . '</a></span>';
+			$html .= '<li class="'.$css_class.'"><a href="'.$path.$category['cat_url_title'].'"><span>' . $category['cat_name'] . '</span></a>';
 			if(isset($category['children'])) {	// has kids!
 				$html .= $this->getCategoryHTML( $category['children'], $default_css_class, $current_css_class, $path, $current_cat_url_title, "<ul".(($level > 0 && $ul_class_children != '')?' class="'.$ul_class_children.'">':'>'), $ul_class_children, true, $level+1 );
 			}
