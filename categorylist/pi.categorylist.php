@@ -75,9 +75,7 @@ var $return_data = "";
 	$addtourl = $this->EE->TMPL->fetch_param('add_to_url');
 	$enclose_in_ul = ($this->EE->TMPL->fetch_param('enclose_in_ul') != 'no');
 				
-	$siteurl = $this->EE->config->slash_item('site_url');
-	$indexphp = $this->EE->config->slash_item('site_index');	
-	$path = $siteurl . $indexphp . ($addtourl != "" ? $addtourl."/" : "") . $this->EE->config->item('reserved_category_word') .'/';
+	$path = $this->EE->functions->create_url(($addtourl != "" ? $addtourl."/" : "") . $this->EE->config->item('reserved_category_word')).'/';
 		
 	$current_cat_url_title = $this->EE->TMPL->fetch_param('current_cat_url_title');
 	$home_link = $this->EE->TMPL->fetch_param('home_link');
